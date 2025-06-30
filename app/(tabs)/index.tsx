@@ -135,7 +135,7 @@ export default function HomeScreen() {
   // Voice AI Agent animation using react-native-reanimated v3
   const pulseAnim = useSharedValue(1);
 
-  const { snackbar, showError, showSuccess, showWarning, showInfo, hideSnackbar } = useSnackbar();
+  const { snackbar, showError, showSuccess, showInfo, hideSnackbar } = useSnackbar();
 
   // Animated style for the voice agent button
   const animatedVoiceAgentButtonStyle = useAnimatedStyle(() => {
@@ -365,6 +365,21 @@ export default function HomeScreen() {
       } else if (type === 'error') {
         showError(message, duration);
       }
+    }, 100);
+  };
+
+  const showWarning = (
+    message: string,
+    duration?: number,
+    action?: { label: string; onPress: () => void }
+  ) => {
+    hideSnackbar();
+    setTimeout(() => {
+      snackbar.visible = true;
+      snackbar.message = message;
+      snackbar.type = 'warning';
+      snackbar.duration = duration;
+      snackbar.action = action;
     }, 100);
   };
 

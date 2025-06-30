@@ -40,11 +40,14 @@ import {
 import { router, useLocalSearchParams } from 'expo-router';
 import { theme } from '@/constants/theme';
 
+<<<<<<< HEAD
 // Lazy load the interactive map component for web
 const InteractiveMap = Platform.OS === 'web' 
   ? React.lazy(() => import('@/components/web/InteractiveMap'))
   : null;
 
+=======
+>>>>>>> c083026 (new commit)
 // Lazy load the Leaflet map component
 const LeafletMap = Platform.OS === 'web'
   ? React.lazy(() => import('@/components/ui/LeafletMap'))
@@ -91,7 +94,10 @@ export default function MapScreen() {
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 12.9716, lng: 77.5946 });
   const [mapZoom, setMapZoom] = useState(12);
+<<<<<<< HEAD
   const [useLeaflet, setUseLeaflet] = useState(true);
+=======
+>>>>>>> c083026 (new commit)
 
   // Parse search parameters with useMemo to prevent infinite re-renders
   const searchFilters = useMemo(() => ({
@@ -913,6 +919,7 @@ export default function MapScreen() {
             </Text>
           </View>
         }>
+<<<<<<< HEAD
           {useLeaflet && LeafletMap ? (
             <LeafletMap 
               properties={filteredProperties} 
@@ -924,6 +931,14 @@ export default function MapScreen() {
             <InteractiveMap 
               properties={filteredProperties} 
               onPropertySelect={handlePropertySelect}
+=======
+          {LeafletMap ? (
+            <LeafletMap 
+              properties={filteredProperties}
+              onPropertySelect={handlePropertySelect}
+              mapCenter={mapCenter}
+              mapZoom={mapZoom}
+>>>>>>> c083026 (new commit)
               selectedCity={searchFilters.city}
               selectedArea={searchFilters.area}
             />

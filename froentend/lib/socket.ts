@@ -17,7 +17,11 @@ class SocketIOClient {
         }
 
         // Use environment variable or fallback to provided serverUrl or default
+<<<<<<< HEAD
         const socketServerUrl = process.env.EXPO_PUBLIC_SOCKET_IO_SERVER_URL || serverUrl || 'http://localhost:5000';
+=======
+        const socketServerUrl = 'http://192.168.1.34:5000';
+>>>>>>> c083026 (new commit)
         
         console.log('Connecting to Socket.IO server:', socketServerUrl);
         this.socket = io(socketServerUrl, {

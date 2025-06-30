@@ -16,7 +16,16 @@
       "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
+<<<<<<< HEAD
     "plugins": ["expo-router", "expo-font", "expo-web-browser"],
+=======
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-web-browser",
+      "expo-barcode-scanner"
+    ],
+>>>>>>> c083026 (new commit)
     "experiments": {
       "typedRoutes": true
     }

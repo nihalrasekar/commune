@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Modal, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,10 +9,40 @@ import { router } from 'expo-router';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSequence, withRepeat } from 'react-native-reanimated';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+=======
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Search, Users, Clock, X, CircleCheck as CheckCircle, CreditCard, Bot, Sparkles } from 'lucide-react-native';
+import { router } from 'expo-router';
+import { useSharedValue, useAnimatedStyle, withTiming, withSequence, withRepeat } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
+import { Card } from '@/components/ui/Card';
+>>>>>>> c083026 (new commit)
 import { Snackbar } from '@/components/ui/Snackbar';
 import { useSnackbar } from '@/hooks/useSnackbar';
 import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/contexts/AuthContext';
+<<<<<<< HEAD
+=======
+import { Camera, CameraView } from 'expo-camera';
+type Bill = {
+  id: string;
+  name: string;
+  icon: string;
+  amount: number;
+};
+
+type ChargerDetails = {
+  apartmentName: string;
+  serialNo: string;
+  hourlyRate: number;
+  location: string;
+  capacity: string;
+};
+>>>>>>> c083026 (new commit)
 
 const todayEntries = [
   {
@@ -40,6 +71,7 @@ const todayEntries = [
   },
 ];
 
+<<<<<<< HEAD
 const paymentMethods = [
   { id: 'upi', name: 'UPI Payment', icon: 'phone' },
   { id: 'card', name: 'Credit/Debit Card', icon: 'credit-card' },
@@ -79,6 +111,22 @@ export default function HomeScreen() {
   const pulseAnim = useSharedValue(1);
 
   const { snackbar, showError, showSuccess, showInfo, hideSnackbar } = useSnackbar();
+=======
+export default function HomeScreen() {
+  const { userProfile } = useAuth();
+  const [paymentModal, setPaymentModal] = useState(false);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [chargingModal, setChargingModal] = useState(false);
+  const [scannerModal, setScannerModal] = useState(false);
+
+  const [isCharging, setIsCharging] = useState(false);
+  const [selectedBill, setSelectedBill] = useState<Bill | null>(null);
+  const [chargerDetails, setChargerDetails] = useState<ChargerDetails | null>(null);
+  // Voice AI Agent animation using react-native-reanimated v3
+  const pulseAnim = useSharedValue(1);
+
+  const { snackbar, showError, showSuccess, showWarning, hideSnackbar } = useSnackbar();
+>>>>>>> c083026 (new commit)
 
   // Animated style for the voice agent button
   const animatedVoiceAgentButtonStyle = useAnimatedStyle(() => {
@@ -97,6 +145,7 @@ export default function HomeScreen() {
       -1,
       false
     );
+<<<<<<< HEAD
   }, []);
 
   // Charging session timer
@@ -138,6 +187,15 @@ export default function HomeScreen() {
       }
     };
   }, [isCharging, chargingData]);
+=======
+
+    // Request camera permissions
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+>>>>>>> c083026 (new commit)
 
   const handleSearchPress = () => {
     // Navigate to the search page
@@ -147,6 +205,7 @@ export default function HomeScreen() {
   const handleVoiceAgentPress = () => {
     router.push('/voice-agent');
   };
+<<<<<<< HEAD
 
   const handlePayment = () => {
     if (!selectedPaymentMethod) {
@@ -606,6 +665,78 @@ export default function HomeScreen() {
     );
   };
 
+=======
+  const billTypes = [
+    { id: 'electricity', name: 'Electricity', icon: '⚡', amount: 1250 },
+    { id: 'rent', name: 'Rent', icon: '🏠', amount: 15000 },
+    { id: 'maintenance', name: 'Maintenance', icon: '🔧', amount: 2500 },
+    { id: 'water', name: 'Water', icon: '💧', amount: 800 },
+    { id: 'gas', name: 'Gas', icon: '🔥', amount: 650 }
+  ];
+
+  const handleBillPayment = (bill: any) => {
+    setSelectedBill(bill);
+    setPaymentModal(true);
+  };
+
+  const handlePayCharging = () => {
+    setScannerModal(true);
+  };
+
+  const handleBarCodeScanned = ({ data }: any) => {
+    setScannerModal(false);
+
+    // Parse QR code data (assuming JSON format)
+    try {
+      const qrData = JSON.parse(data);
+      setChargerDetails({
+        apartmentName: qrData.apartmentName,
+        serialNo: qrData.serialNo,
+        hourlyRate: qrData.hourlyRate || 50,
+        location: qrData.location,
+        capacity: qrData.capacity || '22kW'
+      });
+      setChargingModal(true);
+    } catch (error) {
+      Alert.alert('Invalid QR Code', 'Please scan a valid charger QR code');
+    }
+  };
+
+  const startCharging = () => {
+    setIsCharging(true);
+    Alert.alert('Charging Started', 'Your vehicle is now charging');
+  };
+
+  const stopCharging = () => {
+    Alert.alert(
+      'Stop Charging',
+      'How would you like to pay?',
+      [
+        {
+          text: 'Pay Instantly',
+          onPress: () => {
+            setIsCharging(false);
+            Alert.alert('Payment', 'Instant payment processed successfully');
+          }
+        },
+        {
+          text: 'Add to Main Bill',
+          onPress: () => {
+            setIsCharging(false);
+            Alert.alert('Added to Bill', 'Charging cost added to your main bill');
+          }
+        },
+        { text: 'Cancel', style: 'cancel' }
+      ]
+    );
+  };
+
+  const processPayment = () => {
+    Alert.alert('Payment Successful', `${selectedBill?.name} bill paid successfully`);
+    setPaymentModal(false);
+    setSelectedBill(null);
+  };
+>>>>>>> c083026 (new commit)
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -633,7 +764,150 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </LinearGradient>
+<<<<<<< HEAD
 
+=======
+      <View style={styles.containerquick}>
+        {/* Quick Actions Row */}
+        <Text style={styles.title}>Quick Actions</Text>
+
+        {/* Bill Payment Buttons */}
+       
+          <View style={styles.billsRow}>
+            {billTypes.map((bill) => (
+              <TouchableOpacity
+                key={bill.id}
+                style={styles.billButton}
+                onPress={() => handleBillPayment(bill)}
+              >
+                <Text style={styles.billIcon}>{bill.icon}</Text>
+                <Text style={styles.billText}>{bill.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+    
+
+        {/* Pay Charging Button */}
+        <TouchableOpacity
+          style={styles.chargingButton}
+          onPress={handlePayCharging}
+        >
+          <Text style={styles.chargingIcon}>🔌</Text>
+          <Text style={styles.chargingText}>Pay Charging</Text>
+        </TouchableOpacity>
+
+        {/* Payment Modal */}
+        <Modal visible={paymentModal} animationType="slide" transparent>
+          <View style={styles.modalOverlay}>
+            <View style={styles.paymentModal}>
+              <Text style={styles.modalTitle}>Pay {selectedBill?.name} Bill</Text>
+              <Text style={styles.amount}>₹{selectedBill?.amount}</Text>
+
+              <TextInput
+                style={styles.input}
+                placeholder="Enter amount"
+                value={selectedBill?.amount?.toString()}
+                keyboardType="numeric"
+              />
+
+              <View style={styles.buttonRow}>
+                <TouchableOpacity
+                  style={[styles.button, styles.cancelButton]}
+                  onPress={() => setPaymentModal(false)}
+                >
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.payButton]}
+                  onPress={processPayment}
+                >
+                  <Text style={styles.payButtonText}>Pay Now</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        {/* QR Scanner Modal */}
+        <Modal visible={scannerModal} animationType="slide">
+          <View style={styles.scannerContainer}>
+            {hasPermission === null ? (
+              <Text>Requesting camera permission...</Text>
+            ) : hasPermission === false ? (
+              <Text>No access to camera</Text>
+            ) : (
+              <CameraView
+                onBarcodeScanned={handleBarCodeScanned}
+                barcodeScannerSettings={{
+                  barcodeTypes: ['qr'],
+                }}
+                style={StyleSheet.absoluteFillObject}
+              />
+            )}
+            <View style={styles.scannerOverlay}>
+              <Text style={styles.scannerText}>Scan Charger QR Code</Text>
+              <TouchableOpacity
+                style={styles.closeScannerButton}
+                onPress={() => setScannerModal(false)}
+              >
+                <Text style={styles.closeScannerText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Charging Modal */}
+        <Modal visible={chargingModal} animationType="slide" transparent>
+          <View style={styles.modalOverlay}>
+            <View style={styles.chargingModal}>
+              <Text style={styles.modalTitle}>Charger Details</Text>
+
+              {chargerDetails && (
+                <View style={styles.chargerInfo}>
+                  <Text style={styles.detailText}>Apartment: {chargerDetails.apartmentName}</Text>
+                  <Text style={styles.detailText}>Serial No: {chargerDetails.serialNo}</Text>
+                  <Text style={styles.detailText}>Hourly Rate: ₹{chargerDetails.hourlyRate}</Text>
+                  <Text style={styles.detailText}>Capacity: {chargerDetails.capacity}</Text>
+                  <Text style={styles.detailText}>Location: {chargerDetails.location}</Text>
+                </View>
+              )}
+
+              <View style={styles.chargingStatus}>
+                <Text style={styles.statusText}>
+                  Status: {isCharging ? 'Charging...' : 'Ready to Charge'}
+                </Text>
+              </View>
+
+              <View style={styles.buttonRow}>
+                {!isCharging ? (
+                  <>
+                    <TouchableOpacity
+                      style={[styles.button, styles.cancelButton]}
+                      onPress={() => setChargingModal(false)}
+                    >
+                      <Text style={styles.cancelButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.button, styles.startButton]}
+                      onPress={startCharging}
+                    >
+                      <Text style={styles.startButtonText}>Start Charging</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <TouchableOpacity
+                    style={[styles.button, styles.stopButton]}
+                    onPress={stopCharging}
+                  >
+                    <Text style={styles.stopButtonText}>Stop Charging</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
+>>>>>>> c083026 (new commit)
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Today's Entries */}
         <View style={styles.entriesSection}>
@@ -712,9 +986,15 @@ export default function HomeScreen() {
               end={{ x: 1, y: 1 }}
             >
               <Bot size={32} color={Colors.dark.text} />
+<<<<<<< HEAD
               <Sparkles 
                 size={16} 
                 color={Colors.dark.text} 
+=======
+              <Sparkles
+                size={16}
+                color={Colors.dark.text}
+>>>>>>> c083026 (new commit)
                 style={styles.sparklesIcon}
               />
             </LinearGradient>
@@ -722,10 +1002,13 @@ export default function HomeScreen() {
         </Animated.View>
       </View>
 
+<<<<<<< HEAD
       {/* Modals */}
       {renderPaymentModal()}
       {renderChargerModal()}
 
+=======
+>>>>>>> c083026 (new commit)
       {/* Snackbar */}
       <Snackbar
         visible={snackbar.visible}
@@ -795,16 +1078,26 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
+<<<<<<< HEAD
   entriesSection: {
     marginTop: 20,
     marginBottom: 24,
   },
+=======
+>>>>>>> c083026 (new commit)
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: Colors.dark.text,
     marginBottom: 16,
   },
+<<<<<<< HEAD
+=======
+  entriesSection: {
+    marginTop: 20,
+    marginBottom: 24,
+  },
+>>>>>>> c083026 (new commit)
   entriesCard: {
     padding: 0,
     overflow: 'hidden',
@@ -931,6 +1224,7 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
+<<<<<<< HEAD
 
   // Modal Styles
   modalContainer: {
@@ -1328,5 +1622,194 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: Colors.dark.error,
+=======
+  containerquick: {
+    padding: 20,
+    backgroundColor: Colors.dark.surface,
+    borderRadius: 30,
+    marginVertical: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white',
+  },
+  billsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  billButton: {
+    backgroundColor: Colors.dark.primary + '20',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '30%',
+    marginBottom: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  billIcon: {
+    fontSize: 24,
+    marginBottom: 5,
+  },
+  billText: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: 'white',
+  },
+  chargingButton: {
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+  },
+  chargingIcon: {
+    fontSize: 24,
+    marginRight: 10,
+  },
+  chargingText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  paymentModal: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '90%',
+    maxWidth: 400,
+  },
+  chargingModal: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '90%',
+    maxWidth: 400,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#333',
+  },
+  amount: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#4CAF50',
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 20,
+    fontSize: 16,
+  },
+  chargerInfo: {
+    backgroundColor: '#f9f9f9',
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 20,
+  },
+  detailText: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+  },
+  chargingStatus: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  statusText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2196F3',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    flex: 1,
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginHorizontal: 5,
+  },
+  cancelButton: {
+    backgroundColor: '#f44336',
+  },
+  payButton: {
+    backgroundColor: '#4CAF50',
+  },
+  startButton: {
+    backgroundColor: '#2196F3',
+  },
+  stopButton: {
+    backgroundColor: '#FF9800',
+  },
+  cancelButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  payButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  startButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  stopButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  scannerContainer: {
+    flex: 1,
+  },
+  scannerOverlay: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+  },
+  scannerText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeScannerButton: {
+    backgroundColor: '#f44336',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: '150%',
+  },
+  closeScannerText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    
+>>>>>>> c083026 (new commit)
   },
 });

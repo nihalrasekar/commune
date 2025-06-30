@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+=======
+import { View, Text, StyleSheet, TextInput, TouchableOpacity,Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+>>>>>>> c083026 (new commit)
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, User } from 'lucide-react-native';
@@ -10,7 +14,10 @@ import { Snackbar } from '@/components/ui/Snackbar';
 import { useSnackbar } from '@/hooks/useSnackbar';
 import { useAuth } from '@/contexts/AuthContext';
 import { Colors } from '@/constants/Colors';
+<<<<<<< HEAD
 
+=======
+>>>>>>> c083026 (new commit)
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -119,10 +126,19 @@ export default function LoginScreen() {
           >
             <View style={styles.logoContainer}>
               <View style={styles.logo}>
+<<<<<<< HEAD
                 <User size={32} color={Colors.dark.text} />
               </View>
               <Text style={styles.appName}>Property Super App</Text>
               <Text style={styles.tagline}>Your home, simplified</Text>
+=======
+                
+               <Image source={require('@/assets/images/white.png')} style={{ width: 100, height: 100 }} />
+
+              </View>
+              <Text style={styles.appName}>Commune</Text>
+              <Text style={styles.tagline}>Your lifestyle, your space</Text>
+>>>>>>> c083026 (new commit)
             </View>
           </LinearGradient>
 

@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from 'react';
+=======
+import React, { useState, Suspense, useEffect, useRef } from 'react';
+>>>>>>> c083026 (new commit)
 import { 
   View, 
   Text, 
   StyleSheet, 
+<<<<<<< HEAD
   TouchableOpacity, 
   TextInput,
   ScrollView, 
@@ -13,6 +18,17 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+=======
+  ScrollView, 
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+  Platform,
+  ActivityIndicator,
+  Modal,
+  TextInput,
+} from 'react-native';
+>>>>>>> c083026 (new commit)
 import { 
   MapPin, 
   Heart,
@@ -961,6 +977,7 @@ export default function SearchScreen() {
   );
 }
 
+<<<<<<< HEAD
 // This is a workaround for the Image component in React Native Web
 const Image = ({ source, style }: { source: { uri: string }, style: any }) => {
   if (Platform.OS === 'web') {
@@ -983,6 +1000,8 @@ const Image = ({ source, style }: { source: { uri: string }, style: any }) => {
   }
 };
 
+=======
+>>>>>>> c083026 (new commit)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -1040,7 +1059,11 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     marginTop: theme.spacing.xs,
     maxHeight: 200,
+<<<<<<< HEAD
     zIndex: 1000,
+=======
+    ...theme.shadows.lg,
+>>>>>>> c083026 (new commit)
   },
   suggestionsList: {
     maxHeight: 200,
@@ -1101,6 +1124,10 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
     marginTop: theme.spacing.xs,
     zIndex: 1000,
+<<<<<<< HEAD
+=======
+    ...theme.shadows.md,
+>>>>>>> c083026 (new commit)
   },
   filterOption: {
     paddingHorizontal: theme.spacing.sm,
@@ -1455,7 +1482,11 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     paddingVertical: theme.spacing.md,
     backgroundColor: theme.colors.surface,
+<<<<<<< HEAD
     borderRadius: theme.spacing.md,
+=======
+    borderRadius: theme.borderRadius.md,
+>>>>>>> c083026 (new commit)
   },
   modalFeature: {
     alignItems: 'center',
@@ -1473,7 +1504,11 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     padding: theme.spacing.sm,
     backgroundColor: theme.colors.surface,
+<<<<<<< HEAD
     borderRadius: theme.spacing.md,
+=======
+    borderRadius: theme.borderRadius.md,
+>>>>>>> c083026 (new commit)
   },
   modalAqiText: {
     fontSize: 14,

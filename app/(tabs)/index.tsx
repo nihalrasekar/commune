@@ -135,7 +135,7 @@ export default function HomeScreen() {
   // Voice AI Agent animation using react-native-reanimated v3
   const pulseAnim = useSharedValue(1);
 
-  const { snackbar, showError, showSuccess, showWarning, hideSnackbar } = useSnackbar();
+  const { snackbar, showError, showSuccess, showWarning, showInfo, hideSnackbar } = useSnackbar();
 
   // Animated style for the voice agent button
   const animatedVoiceAgentButtonStyle = useAnimatedStyle(() => {

@@ -348,10 +348,6 @@ export default function HomeScreen() {
     }
   };
 
-  const showInfo = (message: string, duration?: number) => {
-    showSnackbar(message, 'info', duration);
-  };
-
   const showSnackbar = (
     message: string,
     type: 'info' | 'success' | 'warning' | 'error' = 'info',

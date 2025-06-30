@@ -13,63 +13,6 @@ import { useSnackbar } from '@/hooks/useSnackbar';
 import { Colors } from '@/constants/Colors';
 import { useAuth } from '@/contexts/AuthContext';
 
-const quickActions = [
-  {
-    id: '1',
-    title: 'Pay Rent',
-    subtitle: 'Due: 5th of every month',
-    icon: CreditCard,
-    color: Colors.dark.primary,
-    amount: '₹25,000',
-    dueDate: '2024-01-05',
-    type: 'rent',
-    overdue: false,
-  },
-  {
-    id: '2',
-    title: 'Vehicle Charger',
-    subtitle: 'Manage charging',
-    icon: Zap,
-    color: Colors.dark.warning,
-    amount: '₹150/hour',
-    type: 'charger',
-    overdue: false,
-  },
-  {
-    id: '3',
-    title: 'Pay Electricity',
-    subtitle: 'Due: 8th of every month',
-    icon: Power,
-    color: Colors.dark.info,
-    amount: '₹3,200',
-    dueDate: '2024-01-08',
-    type: 'electricity',
-    overdue: false,
-  },
-  {
-    id: '4',
-    title: 'Maintenance',
-    subtitle: 'Due: 10th of every month',
-    icon: Wrench,
-    color: Colors.dark.secondary,
-    amount: '₹1,500',
-    dueDate: '2024-01-10',
-    type: 'maintenance',
-    overdue: false,
-  },
-  {
-    id: '5',
-    title: 'Water Bill',
-    subtitle: 'Due: 12th of every month',
-    icon: Droplets,
-    color: Colors.dark.accent,
-    amount: '₹800',
-    dueDate: '2024-01-12',
-    type: 'water',
-    overdue: false,
-  },
-];
-
 const todayEntries = [
   {
     id: '1',
@@ -107,7 +50,7 @@ export default function HomeScreen() {
   const { userProfile } = useAuth();
   const [paymentModalVisible, setPaymentModalVisible] = useState(false);
   const [chargerModalVisible, setChargerModalVisible] = useState(false);
-  const [selectedAction, setSelectedAction] = useState<typeof quickActions[0] | null>(null);
+  const [selectedAction, setSelectedAction] = useState(null);
   const [paymentStep, setPaymentStep] = useState(1);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
@@ -195,21 +138,6 @@ export default function HomeScreen() {
       }
     };
   }, [isCharging, chargingData]);
-
-  const handleQuickAction = (action: typeof quickActions[0]) => {
-    console.log('Quick action selected:', action.type, action.title);
-    
-    if (action.type === 'charger') {
-      console.log('Opening charger modal');
-      setChargerModalVisible(true);
-    } else {
-      console.log('Opening payment modal for:', action.title, 'Amount:', action.amount);
-      setSelectedAction(action);
-      setPaymentModalVisible(true);
-      setPaymentStep(1);
-      setPaymentSuccess(false);
-    }
-  };
 
   const handleSearchPress = () => {
     // Navigate to the search page
@@ -707,31 +635,6 @@ export default function HomeScreen() {
       </LinearGradient>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {/* Quick Actions */}
-        <View style={styles.quickActionsSection}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.quickActionsScroll}>
-            {quickActions.map((action) => {
-              const IconComponent = action.icon;
-              return (
-                <TouchableOpacity
-                  key={action.id}
-                  style={styles.quickActionCard}
-                  onPress={() => handleQuickAction(action)}
-                >
-                  <View style={[styles.quickActionIcon, { backgroundColor: action.color + '20' }]}>
-                    <IconComponent size={24} color={action.color} />
-                  </View>
-                  <Text style={styles.quickActionTitle}>{action.title}</Text>
-                  <Text style={styles.quickActionSubtitle}>{action.subtitle}</Text>
-                  <Text style={styles.quickActionAmount}>{action.amount}</Text>
-                  {action.overdue && <View style={styles.overdueBadge} />}
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-        </View>
-
         {/* Today's Entries */}
         <View style={styles.entriesSection}>
           <Text style={styles.sectionTitle}>Today's Entries</Text>
@@ -892,7 +795,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
   },
-  quickActionsSection: {
+  entriesSection: {
     marginTop: 20,
     marginBottom: 24,
   },
@@ -901,55 +804,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.dark.text,
     marginBottom: 16,
-  },
-  quickActionsScroll: {
-    paddingVertical: 4,
-  },
-  quickActionCard: {
-    width: 140,
-    backgroundColor: Colors.dark.surface,
-    borderRadius: 16,
-    padding: 16,
-    marginRight: 12,
-    borderWidth: 1,
-    borderColor: Colors.dark.border,
-    position: 'relative',
-  },
-  quickActionIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-  quickActionTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.dark.text,
-    marginBottom: 4,
-  },
-  quickActionSubtitle: {
-    fontSize: 12,
-    color: Colors.dark.textSecondary,
-    marginBottom: 8,
-  },
-  quickActionAmount: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: Colors.dark.primary,
-  },
-  overdueBadge: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: Colors.dark.error,
-  },
-  entriesSection: {
-    marginBottom: 24,
   },
   entriesCard: {
     padding: 0,

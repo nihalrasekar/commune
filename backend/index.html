@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real Estate Agent</title>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+  <h2>Ask Your Real Estate Agent</h2>
+  <div id="chat"></div>
+  <input id="msg" type="text" placeholder="Ask about property..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    const socket = io();
+
+    socket.on('connected', (data) => {
+      addMessage("Agent", data.message);
+    });
+
+    socket.on('agent_response', (data) => {
+      addMessage("Agent", data.message);
+    });
+
+    function sendMessage() {
+      const input = document.getElementById("msg");
+      const message = input.value;
+      if (!message.trim()) return;
+      addMessage("You", message);
+      socket.emit("user_message", { message });
+      input.value = "";
+    }
+
+    function addMessage(role, text) {
+      const chat = document.getElementById("chat");
+      const msg = document.createElement("p");
+      msg.innerHTML = `<b>${role}:</b> ${text}`;
+      chat.appendChild(msg);
+    }
+  </script>
+</body>
+</html>
